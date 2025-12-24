@@ -24,4 +24,4 @@ var inputElements = document.getElementsByTagName("input");
         {inputElements[i].checked = true;
         }
       }
-jQuery("#saran").html(saran);
+jQuery('textarea[name="saran"]').val(saran);
