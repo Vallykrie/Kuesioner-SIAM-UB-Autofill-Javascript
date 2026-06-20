@@ -18,10 +18,21 @@ const value = 4
 const saran = "isi komentar kamu"
 
 var inputElements = document.getElementsByTagName("input");
-  for (var i=0; i<inputElements.length; i++) 
-    {
-      if (inputElements[i].getAttribute('type') == 'radio' && inputElements[i].getAttribute('value') == value) 
-        {inputElements[i].checked = true;
-        }
-      }
-jQuery('textarea[name="saran"]').val(saran);
+for (var i=0; i<inputElements.length; i++) {
+  if (inputElements[i].getAttribute('type') == 'radio' && inputElements[i].getAttribute('value') == value) {
+    inputElements[i].checked = true;
+    // Trigger events so the webpage's scripts register the change
+    inputElements[i].dispatchEvent(new Event('change', { bubbles: true }));
+    inputElements[i].dispatchEvent(new Event('click', { bubbles: true }));
+  }
+}
+
+var textarea = document.querySelector('textarea[name="saran"]');
+if (textarea) {
+  textarea.value = saran;
+  // Trigger events for textarea as well
+  textarea.dispatchEvent(new Event('input', { bubbles: true }));
+  textarea.dispatchEvent(new Event('change', { bubbles: true }));
+} else if (typeof jQuery !== 'undefined') {
+  jQuery('textarea[name="saran"]').val(saran).trigger('change').trigger('input');
+}
