@@ -29,13 +29,20 @@ var inputElements = document.getElementsByTagName("input");
 for (var i = 0; i < inputElements.length; i++) {
     if (inputElements[i].getAttribute('type') == 'radio' && inputElements[i].getAttribute('value') == ratingValue) {
         inputElements[i].checked = true;
+        // Trigger event agar form web mendeteksi perubahan
+        inputElements[i].dispatchEvent(new Event('change', { bubbles: true }));
+        inputElements[i].dispatchEvent(new Event('click', { bubbles: true }));
     }
 }
 
 // 2. Mengisi Textarea Saran (Mendukung jQuery bawaan SIAM)
-if (typeof jQuery !== 'undefined') {
-    jQuery('textarea[name="saran"]').val(komentar);
-} else {
-    // Fallback jika jQuery tidak load
-    document.querySelector('textarea[name="saran"]').value = komentar;
+var textarea = document.querySelector('textarea[name="saran"]');
+if (textarea) {
+    textarea.value = komentar;
+    // Trigger event untuk textarea
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    textarea.dispatchEvent(new Event('change', { bubbles: true }));
+} else if (typeof jQuery !== 'undefined') {
+    // Fallback jika menggunakan jQuery
+    jQuery('textarea[name="saran"]').val(komentar).trigger('change').trigger('input');
 }
